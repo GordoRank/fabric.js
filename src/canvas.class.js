@@ -485,6 +485,11 @@
 
       // Make sure the constraints apply
       target.setPositionByOrigin(constraintPosition, t.originX, t.originY);
+      
+      // Start cached object scaler if in turbo mode
+      if (this.turbo) {
+        this._startCacheScaler(target);
+      }
     },
 
     /**
