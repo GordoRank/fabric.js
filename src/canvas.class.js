@@ -843,41 +843,96 @@
     },
     
     /**
-         *  Draws to a cached canvas
-         * @private
-         * @param {context} [ctx]
-         */
+    *  Draws to a cached canvas
+    * @private
+    * @param {context} [ctx]
+    */
+    _drawCachedCanvas : function(ctx, nocontrols){
+      if (!this.visible) return;
+        
+      var os = this.canvas.overSample,
+          c = this.getCenterPoint(),
+          angle = (this.angle * (Math.PI / 180)),
+          width = ((this.cachedCanvas.width / this.cachedScaleX) * this.scaleX) / os,
+          height = ((this.cachedCanvas.height / this.cachedScaleY) * this.scaleY) / os,
+          left = c.x - (width/2),
+          top = c.y - (height/2);
 
-        _drawCachedCanvas : function(ctx, nocontrols){
+      ctx.save();
+      ctx.translate( c.x, c.y );
+      ctx.rotate( angle );
+      ctx.translate( -c.x, -c.y );
+      ctx.globalAlpha = this.opacity;
+      ctx.drawImage(this.cachedCanvas, left, top, width, height);
+      ctx.restore();
 
-            if (!this.visible) {
-                return;
-            }
-            var os = this.canvas.overSample,
-                c = this.getCenterPoint(),
-                angle = (this.angle * (Math.PI / 180)),
-                width = ((this.cachedCanvas.width / this.cachedScaleX) * this.scaleX) / os,
-                height = ((this.cachedCanvas.height / this.cachedScaleY) * this.scaleY) / os,
-                left = c.x - (width/2),
-                top = c.y - (height/2);
+      if(this.active && !nocontrols && !this.controlsAboveOverlay){
+        ctx.save();
+        this.transform(ctx);
+        this.drawBorders(ctx);
+        this.drawControls(ctx);
+        ctx.restore();
+      }
+    },
+        
+    /**
+    *  Renders a cached background (all objects other than the active one)
+    * @private
+    * @param {object} [object]
+    */
+     _createCachedBackground : function(object){
+       var object = object || this.getActiveObject();
+       if (object) {
+         var hasBorders = object.hasBorders, hasControls = object.hasControls;
+         object.hasBorders = object.hasControls = false;
+         object.visible = false;
+         this.renderAll(false, this.contextBackground, true);
+         object.visible = true;
+         object.hasBorders = hasBorders;
+         object.hasControls = hasControls;
+        }
+        else{
+          this.renderAll(false, this.contextBackground, true);
+        }
 
-            ctx.save();
-            ctx.translate( c.x, c.y );
-            ctx.rotate( angle );
-            ctx.translate( -c.x, -c.y );
-            ctx.globalAlpha = this.opacity;
-            ctx.drawImage(this.cachedCanvas, left, top, width, height);
-            ctx.restore();
+     },
+     
+    /**
+    *  Checks to see if object dimensions need updating on cache update
+    * @private
+    * @param {object} [obj]
+    */
+     _isCacheable : function(obj){
+        return (obj.type == 'group' || 
+                obj.type == 'image' || 
+                obj.type == 'text' || 
+                obj.type == 'svg' || 
+                obj.type == 'i-text');
+     },
+        
+    /**
+    *  Renders an individual object within a group
+    * @private
+    * @param {context} [ctx]
+    * @param {object} [obj]
+    */
+    _renderCachedObject : function(ctx, obj){
+      ctx.save();
+      ctx.scale(obj.scaleX,obj.scaleY);
+      obj.render(ctx, true);
+      ctx.restore();
+    },
 
-            if(this.active && !nocontrols && !this.controlsAboveOverlay){
-                ctx.save();
-                this.transform(ctx);
-                this.drawBorders(ctx);
-                this.drawControls(ctx);
-                ctx.restore();
-            }
-
-        },
+    /**
+    * Rebuilds caches for each object
+    * @private
+    */
+    _rebuildObjectCache : function(){
+      var _this = this;
+      this.forEachObject(function(obj){
+        obj._createCachedCanvas();
+      });
+    },
 
     /**
      * @private
