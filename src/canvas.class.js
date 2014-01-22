@@ -189,6 +189,11 @@
       this._groupSelector = null;
       this._initWrapperElement();
       this._createUpperCanvas();
+      
+      if (this.turbo) {
+        this._createBackgroundCanvas();
+      }
+      
       this._initEventListeners();
 
       this.freeDrawingBrush = fabric.PencilBrush && new fabric.PencilBrush(this);
