@@ -270,6 +270,13 @@
           this._extendStyles(i, styles);
         }
       }
+      
+      if (this.canvas && this.canvas.turbo) {
+        this.height = this.getHeight();
+        this.width = this.getWidth();
+        this._createCachedCanvas();
+      }
+            
       return this;
     },
 
