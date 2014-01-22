@@ -82,6 +82,20 @@
      * @default
      */
     interactive:            true,
+    
+    /**
+     * Enables experimental turbo mode (Object/Background caching)
+     * @type boolean
+     * @default
+     */
+    turbo : false,
+
+    /**
+     * Defines oversample ratio for cached objects in turbo mode (Improves object sharpness)
+     * @type int
+     * @default
+     */
+    overSample : 1.5,
 
     /**
      * Indicates whether group selection should be enabled
