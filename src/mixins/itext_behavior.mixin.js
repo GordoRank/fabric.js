@@ -473,6 +473,12 @@
       this.selectionEnd = this.selectionStart;
 
       if (this.canvas) {
+        if (this.canvas.turbo) {
+          //first update height and width to actual values incase they have changed
+          this.height = this.getHeight();
+          this.width = this.getWidth();
+          this._createCachedCanvas();
+        }
         // TODO: double renderAll gets rid of text box shift happenning sometimes
         // need to find out what exactly causes it and fix it
         this.canvas.renderAll().renderAll();
