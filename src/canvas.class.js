@@ -1012,11 +1012,16 @@
      * @param {Object} object
      */
     _setActiveObject: function(object) {
+      var cache = (this.turbo && !object.active);
       if (this._activeObject) {
         this._activeObject.set('active', false);
       }
       this._activeObject = object;
       object.set('active', true);
+      
+      if (cache) {
+        this._createCachedBackground(object);
+      }
     },
 
     /**
