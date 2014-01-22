@@ -841,6 +841,43 @@
       this.cacheCanvasEl.setAttribute('height', this.height);
       this.contextCache = this.cacheCanvasEl.getContext('2d');
     },
+    
+    /**
+         *  Draws to a cached canvas
+         * @private
+         * @param {context} [ctx]
+         */
+
+        _drawCachedCanvas : function(ctx, nocontrols){
+
+            if (!this.visible) {
+                return;
+            }
+            var os = this.canvas.overSample,
+                c = this.getCenterPoint(),
+                angle = (this.angle * (Math.PI / 180)),
+                width = ((this.cachedCanvas.width / this.cachedScaleX) * this.scaleX) / os,
+                height = ((this.cachedCanvas.height / this.cachedScaleY) * this.scaleY) / os,
+                left = c.x - (width/2),
+                top = c.y - (height/2);
+
+            ctx.save();
+            ctx.translate( c.x, c.y );
+            ctx.rotate( angle );
+            ctx.translate( -c.x, -c.y );
+            ctx.globalAlpha = this.opacity;
+            ctx.drawImage(this.cachedCanvas, left, top, width, height);
+            ctx.restore();
+
+            if(this.active && !nocontrols && !this.controlsAboveOverlay){
+                ctx.save();
+                this.transform(ctx);
+                this.drawBorders(ctx);
+                this.drawControls(ctx);
+                ctx.restore();
+            }
+
+        },
 
     /**
      * @private
