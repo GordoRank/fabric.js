@@ -540,12 +540,18 @@
       if (this.controlsAboveOverlay) {
         var hasBorders = object.hasBorders, hasControls = object.hasControls;
         object.hasBorders = object.hasControls = false;
-        object.render(ctx);
-        object.hasBorders = hasBorders;
-        object.hasControls = hasControls;
+      }
+
+      if (this.turbo && object.cachedCanvas) {
+        this._drawCachedCanvas.call(object, ctx);
       }
       else {
         object.render(ctx);
+      }
+
+      if (this.controlsAboveOverlay) {
+        object.hasBorders = hasBorders;
+        object.hasControls = hasControls;
       }
     },
 
@@ -557,6 +563,12 @@
       this.stateful && obj.setupState();
       obj.setCoords();
       obj.canvas = this;
+      
+      if (this.interactive && this.turbo) {
+        obj._createCachedCanvas();
+        this._draw(this.contextBackground, obj);
+      }
+            
       this.fire('object:added', { target: obj });
       obj.fire('added');
     },
