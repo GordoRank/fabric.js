@@ -629,6 +629,19 @@
       this.renderAll();
       return this;
     },
+    
+     /**
+     * Determines whether we should render a cached object or not
+     */
+    
+    shouldRenderCached : function(){
+      var target = this.getActiveObject();
+      return (
+        target &&
+        this.turbo &&
+        this.backgroundEl
+      );
+    },
 
     /**
      * Renders both the top canvas and the secondary container canvas.
@@ -636,9 +649,9 @@
      * @return {fabric.Canvas} instance
      * @chainable
      */
-    renderAll: function (allOnTop) {
+    renderAll: function (allOnTop, ctx, drawBackground) {
 
-      var canvasToDrawOn = this[(allOnTop === true && this.interactive) ? 'contextTop' : 'contextContainer'];
+      var canvasToDrawOn = ctx ? ctx : (this[(allOnTop === true && this.interactive) ? 'contextTop' : 'contextContainer']);
       var activeGroup = this.getActiveGroup();
 
       if (this.contextTop && this.selection && !this._groupSelector) {
@@ -653,6 +666,14 @@
 
       if (this.clipTo) {
         fabric.util.clipContext(this, canvasToDrawOn);
+      }
+      
+      if (this.shouldRenderCached() && !drawBackground) {
+        this._draw(canvasToDrawOn, this.getActiveObject());
+        if (this.controlsAboveOverlay && this.interactive) {
+          this.drawControls(canvasToDrawOn);
+        }
+        return this;
       }
 
       this._renderBackground(canvasToDrawOn);
