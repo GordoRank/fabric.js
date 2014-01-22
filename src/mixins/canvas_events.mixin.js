@@ -520,6 +520,25 @@
       this.fire('mouse:move', { target: target, e: e });
       target && target.fire('mousemove', { e: e });
     },
+    
+    /**
+     * Scales cached objects every 100ms during scale transforms
+     * @param {target} object to rebuild cache for
+     * @private
+     */
+    _startCacheScaler : function(target) {
+      var _this = this;
+
+      if (!this.__scaleInterval) {
+        this.__scaleInterval = setInterval(function(){
+          if (!target.isMoving) {
+            clearTimeout(_this.__scaleInterval);
+            _this.__scaleInterval = null;
+          }
+          target._createCachedCanvas();
+        }, 100);
+      }
+    },
 
     /**
      * @private
