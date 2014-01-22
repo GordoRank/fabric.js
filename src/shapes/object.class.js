@@ -912,6 +912,56 @@
       this.sourcePath = value;
       return this;
     },
+    
+    /** Creates a cached copy of the object
+    * @private
+    */
+     _createCachedCanvas: function(){
+       if(!this.cachedCanvas){
+         this.cachedCanvas = fabric.util.createCanvasElement();
+       }
+
+       var os = this.canvas.overSample,
+           canvas = this.cachedCanvas,
+           ctx = canvas.getContext('2d'),
+           offsetX = (this.shadow && this.shadow.offsetX) ? this.shadow.offsetX*os : 0,
+           offsetY = (this.shadow && this.shadow.offsetY) ? this.shadow.offsetY*os : 0,
+           padX = (this.padding*2),
+           padY = (this.padding*2),
+           width = (this.getWidth() + offsetX) * os,
+           height = (this.getHeight() + offsetY) * os;
+
+       canvas.width = width + padX;
+       canvas.height = height + padY;
+
+       this.cachedScaleX = this.scaleX;
+       this.cachedScaleY = this.scaleY;
+
+       ctx.save();
+       
+       if (this.flipX) {
+         ctx.translate(width + padX, 0);
+         ctx.scale(-1, 1);
+       }
+       if (this.flipY) {
+         ctx.translate(0, height + padY);
+         ctx.scale(1, -1);
+       }
+
+       ctx.translate((width/2) + this.padding, (height/2) + this.padding);
+       ctx.scale(this.scaleX*os,this.scaleY*os);
+
+       if (this._objects) {
+         for(var i= 0, len = this._objects.length; i<len; i++){
+           this.canvas._renderCachedObject(ctx, this._objects[i]);
+         }
+       }
+       else {
+         this.render(ctx, true);
+       }
+
+       ctx.restore();
+    },
 
     /**
      * Renders an object on a specified context
