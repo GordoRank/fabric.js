@@ -898,6 +898,17 @@
         ctx.restore();
       }
     },
+    
+    /**
+    *  Updates and redraws cached objects
+    * @private
+    */
+    updateCache : function(){
+      this._createCachedCanvas();
+      if (!this.active) {
+        this.canvas._createCachedBackground();
+      }
+    },
         
     /**
     *  Renders a cached background (all objects other than the active one)
