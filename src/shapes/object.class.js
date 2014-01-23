@@ -885,9 +885,15 @@
 
       this[key] = value;
       
+      /* TODO : once all properties to ignore are found create a function out of the below horrible hack
+       *   We need to know on which properties we should fire a cache recreate
+       */
+      
       if (this.canvas && this.canvas.turbo && key !== 'active') {
         if(key !== 'left' &&
            key !== 'top' &&
+           key !== 'originalLeft' &&
+           key !== 'originalTop' &&
            key !== 'scaleX' &&
            key !== 'scaleY' &&
            key !== 'width' &&
