@@ -281,23 +281,21 @@
           oldOriginY = object.get('originY'),
           center = object.getCenterPoint();
 
-      object.set({
-        originX: 'center',
-        originY: 'center',
-        left: center.x,
-        top: center.y
-      });
+      // Use dot notaion to avoid recreating cached objects
+      object.originX = 'center';
+      object.originY = 'center';
+      object.left = center.x;
+      object.top = center.y;
 
       this._toggleFlipping(object);
 
       var newOrigin = object.getPointByOrigin(oldOriginX, oldOriginY);
 
-      object.set({
-        originX: oldOriginX,
-        originY: oldOriginY,
-        left: newOrigin.x,
-        top: newOrigin.y
-      });
+      // Use dot notaion to avoid recreating cached objects
+      object.originX = oldOriginX;
+      object.originY = oldOriginY;
+      object.left = newOrigin.x;
+      object.top = newOrigin.y;
 
       return this;
     },
@@ -345,13 +343,12 @@
           groupTop = this.getTop(),
           rotated = this._getRotatedLeftTop(object);
 
-      object.set({
-        angle: object.getAngle() + this.getAngle(),
-        left: groupLeft + rotated.left,
-        top: groupTop + rotated.top,
-        scaleX: object.get('scaleX') * this.get('scaleX'),
-        scaleY: object.get('scaleY') * this.get('scaleY')
-      });
+      // Use dot notation to avoid recreating cached objects
+      object.angle = object.getAngle() + this.getAngle();
+      object.left = groupLeft + rotated.left;
+      object.top = groupTop + rotated.top;
+      object.scaleX = object.get('scaleX') * this.get('scaleX');
+      object.scaleY = object.get('scaleY') * this.get('scaleY');
     },
 
     /**
