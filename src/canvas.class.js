@@ -1163,6 +1163,11 @@
       }
       this._discardActiveGroup();
       this._discardActiveObject();
+      
+      if (this.turbo) {
+        this._createCachedBackground();
+      }
+            
       return this;
     },
 
