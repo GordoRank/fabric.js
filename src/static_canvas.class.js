@@ -673,6 +673,7 @@
         if (this.controlsAboveOverlay && this.interactive) {
           this.drawControls(canvasToDrawOn);
         }
+        this.fire('after:render');
         return this;
       }
 
