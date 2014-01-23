@@ -892,13 +892,14 @@
            key !== 'scaleY' &&
            key !== 'width' &&
            key !== 'height' &&
-           key !== 'angle'){
+           key !== 'angle' ||
+           !this.active){
 
            if (this.canvas._isCacheable(this)) {
              this.width = this.getWidth();
              this.height = this.getHeight();
            }
-           this._createCachedCanvas();
+           this.updateCache();
          }
        }
 
