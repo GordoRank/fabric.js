@@ -970,9 +970,7 @@
        ctx.scale(this.scaleX*os,this.scaleY*os);
 
        if (this._objects) {
-         for(var i= 0, len = this._objects.length; i<len; i++){
-           this.canvas._renderCachedObject(ctx, this._objects[i]);
-         }
+         this.canvas._createCachedGroup(ctx, this._objects);
        }
        else {
          this.render(ctx, true);
