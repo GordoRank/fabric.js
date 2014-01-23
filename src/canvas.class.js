@@ -946,16 +946,18 @@
      },
         
     /**
-    *  Renders an individual object within a group
+    *  Renders an temporary cache for a set of grouped objects
     * @private
     * @param {context} [ctx]
-    * @param {object} [obj]
+    * @param {objects} [objects]
     */
-    _renderCachedObject : function(ctx, obj){
-      ctx.save();
-      ctx.scale(obj.scaleX,obj.scaleY);
-      obj.render(ctx, true);
-      ctx.restore();
+    _createCachedGroup : function(ctx, objects){
+      for (var i= 0, len = objects.length; i<len; i++) {
+        var obj = objects[i];
+        ctx.save();
+        this._draw(ctx, obj);
+        ctx.restore();
+      }
     },
 
     /**
