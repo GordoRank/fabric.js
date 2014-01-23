@@ -1105,6 +1105,11 @@
       if (group) {
         group.canvas = this;
         group.set('active', true);
+        
+        if (this.turbo) {
+          this._createCachedBackground(group);
+          group._createCachedCanvas();
+        }
       }
     },
 
