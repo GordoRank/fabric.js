@@ -630,18 +630,7 @@
       return this;
     },
     
-     /**
-     * Determines whether we should render a cached object or not
-     */
     
-    shouldRenderCached : function(){
-      var target = this.getActiveObject();
-      return (
-        target &&
-        this.turbo &&
-        this.backgroundEl
-      );
-    },
 
     /**
      * Renders both the top canvas and the secondary container canvas.
@@ -668,11 +657,14 @@
         fabric.util.clipContext(this, canvasToDrawOn);
       }
       
-      if (this.shouldRenderCached() && !drawBackground) {
-        this._draw(canvasToDrawOn, this.getActiveObject());
-        if (this.controlsAboveOverlay && this.interactive) {
-          this.drawControls(canvasToDrawOn);
-        }
+      if (this.turbo && !drawBackground) {
+         var activeObject = this.getActiveObject();
+         if (activeObject) {
+           this._draw(canvasToDrawOn, activeObject);
+           if (this.controlsAboveOverlay && this.interactive) {
+             this.drawControls(canvasToDrawOn);
+           }
+         }
         this.fire('after:render');
         return this;
       }
