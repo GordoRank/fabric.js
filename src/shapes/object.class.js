@@ -885,7 +885,7 @@
 
       this[key] = value;
       
-      if (this.canvas && this.canvas.turbo) {
+      if (this.canvas && this.canvas.turbo && key !== 'active') {
         if(key !== 'left' &&
            key !== 'top' &&
            key !== 'scaleX' &&
