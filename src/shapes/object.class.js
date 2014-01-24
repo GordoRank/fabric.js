@@ -899,6 +899,7 @@
       if (this.canvas && this.canvas.turbo && key !== 'active' && this.autoCacheUpdate) {
         if(key !== 'left' &&
            key !== 'top' &&
+           key !== '_currentCursorOpacity' &&
            key !== 'originalLeft' &&
            key !== 'originalTop' &&
            key !== 'scaleX' &&
