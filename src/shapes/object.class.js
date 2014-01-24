@@ -892,6 +892,11 @@
 
       this[key] = value;
       
+      // Fires callback if present.  This is critical when dealing with Text/I-Text so that we correctly set the dimensions prior to updating the cache
+      if (typeof callback === 'function') {
+        callback();
+      }
+      
       /* TODO : once all properties to ignore are found create a function out of the below horrible hack
        *   We need to know on which properties we should fire a cache recreate
        */
