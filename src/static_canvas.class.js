@@ -250,7 +250,13 @@
      * });
      */
     setBackgroundImage: function (image, callback, options) {
-      return this.__setBgOverlayImage('backgroundImage', image, callback, options);
+      var _this = this;
+        return this.__setBgOverlayImage('backgroundImage', image, function(){
+          if (_this.turbo) {
+            _this._createCachedBackground();
+          }
+          callback();
+        }, options);
     },
 
     /**
@@ -275,7 +281,13 @@
      * }, canvas.renderAll.bind(canvas));
      */
     setOverlayColor: function(overlayColor, callback) {
-      return this.__setBgOverlayColor('overlayColor', overlayColor, callback);
+      var _this = this;
+        return this.__setBgOverlayColor('overlayColor', overlayColor, function(){
+          if (_this.turbo) {
+            _this._createCachedBackground();
+          }
+          callback();
+        });
     },
 
     /**
