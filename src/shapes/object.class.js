@@ -608,6 +608,13 @@
      * @default
      */
     includeDefaultValues:     true,
+    
+    /**
+     * When `false`, object does not attempt to automatically update its internal cache in 'Turbo' mode
+     * @type Boolean
+     * @default
+     */
+    autoCacheUpdate:     true,
 
     /**
      * Function that determines clipping of an object (context is passed as a first argument)
@@ -889,7 +896,7 @@
        *   We need to know on which properties we should fire a cache recreate
        */
       
-      if (this.canvas && this.canvas.turbo && key !== 'active') {
+      if (this.canvas && this.canvas.turbo && key !== 'active' && this.autoCacheUpdate) {
         if(key !== 'left' &&
            key !== 'top' &&
            key !== 'originalLeft' &&
