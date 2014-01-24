@@ -1025,15 +1025,19 @@
      * @chainable
      */
     _set: function(key, value) {
+      var _this = this;
+      
       if (key === 'fontFamily' && this.path) {
         this.path = this.path.replace(/(.*?)([^\/]*)(\.font\.js)/, '$1' + value + '$3');
       }
-      this.callSuper('_set', key, value);
-
-      if (key in this._dimensionAffectingProps) {
-        this._initDimensions();
-        this.setCoords();
-      }
+      
+      //Move Dimension setting into callback so that it can fire prior to recreating the cache in turbo mode
+      this.callSuper('_set', key, value, function(){
+        if (key in _this._dimensionAffectingProps) {
+          _this._initDimensions();
+          _this.setCoords();
+        }
+      });
     },
 
     /**
