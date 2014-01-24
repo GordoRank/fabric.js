@@ -846,18 +846,18 @@
      * @return {fabric.Object} thisArg
      * @chainable
      */
-    set: function(key, value) {
+    set: function(key, value, callback) {
       if (typeof key === 'object') {
         for (var prop in key) {
-          this._set(prop, key[prop]);
+          this._set(prop, key[prop], callback);
         }
       }
       else {
         if (typeof value === 'function' && key !== 'clipTo') {
-          this._set(key, value(this.get(key)));
+          this._set(key, value(this.get(key)), callback);
         }
         else {
-          this._set(key, value);
+          this._set(key, value, callback);
         }
       }
       return this;
@@ -869,7 +869,7 @@
      * @param {Any} value
      * @return {fabric.Object} thisArg
      */
-    _set: function(key, value) {
+    _set: function(key, value, callback) {
       var shouldConstrainValue = (key === 'scaleX' || key === 'scaleY');
 
       if (shouldConstrainValue) {
