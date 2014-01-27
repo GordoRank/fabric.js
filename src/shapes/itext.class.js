@@ -272,9 +272,9 @@
       }
       
       if (this.canvas && this.canvas.turbo) {
-        this.height = this.getHeight();
-        this.width = this.getWidth();
-        this._createCachedCanvas();
+        this._initDimensions();
+        this.setCoords();
+        this.updateCache();
       }
             
       return this;
