@@ -316,6 +316,15 @@
         boundaries = this._getCursorBoundaries(chars, 'selection');
         this.renderSelection(chars, boundaries);
       }
+      
+      if (!this.prevStart ||
+          !this.prevEnd ||
+          this.prevStart !== this.selectionStart ||
+          this.prevEnd !== this.selectionEnd){
+          this.canvas && this.canvas.fire('text:selection:changed', { target: this });
+          this.prevStart = this.selectionStart;
+          this.prevEnd = this.selectionEnd;
+      }
     },
 
     /**
