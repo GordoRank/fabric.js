@@ -511,6 +511,17 @@
         this.upperCanvasEl[prop] = value;
         this.upperCanvasEl.style[prop] = value + 'px';
       }
+      
+      if (this.backgroundEl) {
+        this.backgroundEl[prop] = value;
+        this.backgroundEl.style[prop] = value + 'px';
+      }
+
+      if (this.backgroundImageEl) {
+        this.backgroundImageEl[prop] = value;
+        this.backgroundImageEl.style[prop] = value + 'px';
+        this._renderBackground(this.contextBackgroundImage);
+      }
 
       if (this.cacheCanvasEl) {
         this.cacheCanvasEl[prop] = value;
