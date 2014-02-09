@@ -255,7 +255,10 @@
           if (_this.turbo) {
             _this._createCachedBackground();
           }
-          callback();
+          _this._renderBackground(_this.contextBackgroundImage);
+          if (typeof(callback) == 'function') {
+            callback();
+          }
         }, options);
     },
 
@@ -312,7 +315,16 @@
      * }, canvas.renderAll.bind(canvas));
      */
     setBackgroundColor: function(backgroundColor, callback) {
-      return this.__setBgOverlayColor('backgroundColor', backgroundColor, callback);
+       var _this = this;
+       return this.__setBgOverlayColor('backgroundColor', backgroundColor, function(){
+         if (_this.turbo) {
+           _this._createCachedBackground();
+         }
+         _this._renderBackground(_this.contextBackgroundImage);
+         if (typeof(callback) == 'function') {
+           callback();
+         }
+      });
     },
 
     /**
