@@ -837,6 +837,34 @@
         y: pointer.y - this._offset.top
       };
     },
+    
+    /**
+     * Creates a background caching canvas
+     * @private
+     * @param {HTMLElement} [canvasEl]
+     */
+    _createBackgroundCanvas: function () {
+      this.backgroundEl = this._createCanvasElement();
+      fabric.util.addClass(this.backgroundEl, 'background-canvas');
+      this.wrapperEl.insertBefore(this.backgroundEl, this.wrapperEl.firstChild);
+      this._copyCanvasStyle(this.lowerCanvasEl, this.backgroundEl);
+      this._applyCanvasStyle(this.backgroundEl);
+      this.contextBackground = this.backgroundEl.getContext('2d');
+    },
+
+    /**
+     * Creates a background image canvas
+     * @private
+     * @param {HTMLElement} [canvasEl]
+     */
+    _createBackgroundImageCanvas: function (canvasEl) {
+      this.backgroundImageEl = this._createCanvasElement();
+      fabric.util.addClass(this.backgroundImageEl, 'background-image-canvas');
+      this.wrapperEl.insertBefore(this.backgroundImageEl, this.wrapperEl.firstChild);
+      this._copyCanvasStyle(this.lowerCanvasEl, this.backgroundImageEl);
+      this._applyCanvasStyle(this.backgroundImageEl);
+      this.contextBackgroundImage = this.backgroundImageEl.getContext('2d');
+    },
 
     /**
      * @private
